@@ -61,7 +61,7 @@ Decision Table::getDecision(const Hand & hand, Card upcard) {
     else {
         decision = normal[hand.totalValue() - NORMAL_MIN][upcard_index];
     }
-    
+
     // Convert table value to decision
     switch(decision) {
     case 1:

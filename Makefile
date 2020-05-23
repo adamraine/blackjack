@@ -1,7 +1,7 @@
 debug_or_optimize = -O3
 
 CXX = g++
-CXXFLAGS = -Wall -Werror -pedantic --std=c++17 $(debug_or_optimize)
+CXXFLAGS = -Wall -pedantic --std=c++17 $(debug_or_optimize)
 
 SOURCES = $(wildcard *.cpp)
 OBJECTS = $(SOURCES:%.cpp=%.o)

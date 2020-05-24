@@ -17,70 +17,70 @@ using std::fstream;
 Table Table::basic_strategy = Table("strategy/basic.csv");
 
 static void addToTable(vector<vector<char> > & vec, istringstream & ss) {
-    vector<char> row;
-    string val;
-    while(getline(ss, val, ',')) {
-        row.push_back(std::stoi(val));
-    }
-    vec.push_back(row);
+  vector<char> row;
+  string val;
+  while(getline(ss, val, ',')) {
+    row.push_back(std::stoi(val));
+  }
+  vec.push_back(row);
 }
 
 Table::Table(string filename) {
-    fstream fin(filename);
-    string line, row_name;
-    getline(fin, line); // Ignore headers
-    while(getline(fin, line)) {
-        std::istringstream ss(line);
-        getline(ss, row_name, ',');
-        if(row_name.find('-') != string::npos) {
-            addToTable(soft, ss);
-        }
-        else if(row_name.find('|') != string::npos) {
-            addToTable(pair, ss);
-        }
-        else {
-            addToTable(normal, ss);
-        }
+  fstream fin(filename);
+  string line, row_name;
+  getline(fin, line); // Ignore headers
+  while(getline(fin, line)) {
+    std::istringstream ss(line);
+    getline(ss, row_name, ',');
+    if(row_name.find('-') != string::npos) {
+      addToTable(soft, ss);
     }
+    else if(row_name.find('|') != string::npos) {
+      addToTable(pair, ss);
+    }
+    else {
+      addToTable(normal, ss);
+    }
+  }
 }
 
 Decision Table::getDecision(const Hand & hand, Card upcard) {
-    size_t upcard_index = (upcard.isSoft() ? 0 : upcard.getValue() - UPCARD_MIN);
-    char decision;
-    if(hand.isPair()) {
-        if(hand.isSoft()) {
-            decision = pair[0][upcard_index];
-        }
-        else {
-            decision = pair[hand.getCards()[0].getValue() - PAIR_MIN][upcard_index];
-        }
-    }
-    else if(hand.isSoft()) {
-        decision = soft[hand.totalValue() - SOFT_MIN][upcard_index];
+  size_t upcard_index = (upcard.isSoft() ? 0 : upcard.getValue() - UPCARD_MIN);
+  char decision;
+  if(hand.isPair()) {
+    if(hand.isSoft()) {
+      decision = pair[0][upcard_index];
     }
     else {
-        decision = normal[hand.totalValue() - NORMAL_MIN][upcard_index];
+      decision = pair[hand.getCards()[0].getValue() - PAIR_MIN][upcard_index];
     }
+  }
+  else if(hand.isSoft()) {
+    decision = soft[hand.totalValue() - SOFT_MIN][upcard_index];
+  }
+  else {
+    decision = normal[hand.totalValue() - NORMAL_MIN][upcard_index];
+  }
 
-    // Convert table value to decision
-    switch(decision) {
+  // Convert table value to decision
+  switch(decision) {
     case 1:
-        return Decision::hit;
+      return Decision::hit;
     case 2:
-        return Decision::stand;
+      return Decision::stand;
     case 3:
-        return Decision::split;
+      return Decision::split;
     case 4:
-        if(hand.getCards().size() == 2) {
-            return Decision::double_down;
-        }
-        return Decision::hit;
+      if(hand.getCards().size() == 2) {
+        return Decision::double_down;
+      }
+      return Decision::hit;
     case 5:
-        if(hand.getCards().size() == 2) {
-            return Decision::double_down;
-        }
-        return Decision::stand;
+      if(hand.getCards().size() == 2) {
+        return Decision::double_down;
+      }
+      return Decision::stand;
     default:
-        ERROR("Invalid table value.");
-    }
+      ERROR("Invalid table value.");
+  }
 }

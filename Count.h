@@ -5,12 +5,12 @@
 #include "Card.h"
 
 class Count {
-    std::array<double, 10> counts;
+  std::array<double, 10> counts;
 public:
-    Count(std::array<double, 10> _counts) : counts(_counts) {}
-    double getCountValue(Card card);
+  Count(std::array<double, 10> _counts) : counts(_counts) {}
+  double getCountValue(Card card);
 
-    static Count hilo;
+  static Count hilo;
 };
 
 #endif // COUNT_H_

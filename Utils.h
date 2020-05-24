@@ -4,12 +4,12 @@
 #include <iostream>
 
 struct Options {
-    static std::string players;
-    static int num_decks;
-    static int num_rounds;
-    static size_t deck_seed;
-    static bool verbose_flag;
-    static void getOptions(int argc, char* argv[]);
+  static std::string players;
+  static int num_decks;
+  static int num_rounds;
+  static size_t deck_seed;
+  static bool verbose_flag;
+  static void getOptions(int argc, char* argv[]);
 };
 
 #define VPRINT if(Options::verbose_flag) std::cout

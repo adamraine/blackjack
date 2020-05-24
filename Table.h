@@ -6,14 +6,14 @@
 #include "Player.h"
 
 class Table {
-    std::vector<std::vector<char> > normal;
-    std::vector<std::vector<char> > pair;
-    std::vector<std::vector<char> > soft;
+  std::vector<std::vector<char> > normal;
+  std::vector<std::vector<char> > pair;
+  std::vector<std::vector<char> > soft;
 public:
-    Table(std::string filename);
-    Decision getDecision(const Hand & hand, Card upcard);
+  Table(std::string filename);
+  Decision getDecision(const Hand & hand, Card upcard);
 
-    static Table basic_strategy;
+  static Table basic_strategy;
 };
 
 #endif // TABLE_H_
